@@ -1,27 +1,25 @@
-import React,{useState,useEffect} from 'react'
-import QuestionItem from './components/QuestionItems/index'
+import React, { useState, useEffect } from 'react'
+import QuestionItem from './components/QuestionItems'
 
 function App() {
-  const [faqData,setFaqData] = useState([])
+  const [faqData, setFaqData] = useState([])
 
   useEffect(() => {
-    let url = 'https://opentdb.com/api.php?amount=10'
-    const response = fetch(url)
-    const data = response.json()
-    setFaqData(data)
-  },[])
-
- 
+    const getData = async () => {
+      const response = await fetch('https://opentdb.com/api.php?amount=10')
+      const data = await response.json()
+      setFaqData(data.results)
+    }
+    getData()
+  }, [])
 
   return (
-    <div>
-      <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
-       
+    <div className="min-h-screen bg-gray-100 p-5">
+      <div className="max-w-3xl mx-auto">
         {faqData.map((item, index) => (
           <QuestionItem key={index} item={item} />
         ))}
-      
-    </div>
+      </div>
     </div>
   )
 }
